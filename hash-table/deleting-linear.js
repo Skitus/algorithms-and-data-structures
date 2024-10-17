@@ -16,7 +16,7 @@ class HashTable {
     set(key, value) {
         let count = 0;
         this.table.forEach(item => {
-            if (item) count += 1;
+            if (item && item !== 'DELETED') count += 1;
         });
 
         // Расширение таблицы, если она заполнена более чем на 70%
@@ -27,8 +27,7 @@ class HashTable {
         let index = this.hash(key);
 
         do {
-            console.log('set this.table[index]', this.table[index]);
-            if (!this.table[index] || this.table[index] == 'DELETED') {
+            if (!this.table[index] || this.table[index] === 'DELETED') {
                 this.table[index] = [key, value];
                 return;
             }
@@ -49,7 +48,7 @@ class HashTable {
         do {
             if (!this.table[index]) return null;
 
-            if (this.table[index][0] === key || this.table[index] == 'DELETED') {
+            if (this.table[index] !== 'DELETED' && this.table[index][0] === key) {
                 return this.table[index][1];
             }
 
@@ -79,7 +78,7 @@ class HashTable {
         this.table = new Array(oldTable.length * 2);  // Увеличиваем размер таблицы в 2 раза
 
         oldTable.forEach(bucket => {
-            if (bucket) {
+            if (bucket && bucket !== 'DELETED') {
                 // Перехешируем каждую пару key-value
                 const [key, value] = bucket;
                 this.rehash(key, value);
@@ -123,5 +122,5 @@ ht.set("lettuce", 500);
 ht.set("pepper", 500);
 
 
-console.log(ht.get("apple"));
+console.log(ht.get("apple"));  // null, так как удалено
 console.log('table', ht.getTable());
