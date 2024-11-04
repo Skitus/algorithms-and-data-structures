@@ -35,5 +35,5 @@ graph.addEdge('A', 'B', 4);
 graph.addEdge('A', 'C', 2);
 graph.addEdge('B', 'C', 1);
 
-console.log(graph.toString()); // Выводит структуру графа
+console.log(graph.toString());
 console.log(graph.getNeighbors('A')); // [['B', 4], ['C', 2]]
